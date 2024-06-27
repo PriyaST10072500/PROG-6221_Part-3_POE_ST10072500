@@ -93,7 +93,7 @@
             <TabItem Header="All Recipes   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="All recipes in alphabetical order" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="260"/>
+                        <TextBlock Text="All recipes " FontSize="18" FontWeight="Bold" Margin="80,0,0,10" Width="100"/>
                         <!-- Filter Elements -->
                         <StackPanel Orientation="Horizontal" Margin="0,10">
                             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
@@ -182,7 +182,7 @@
             <TabItem Header="Reset Recipe   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="Reset ingredients to original amount" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="330"/>
+                        <TextBlock Text="Reset ingredients" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="170"/>
                         <TextBlock Text="Recipe Name:"/>
                         <TextBox Name="ResetRecipeTextBox" Margin="0,0,0,10"/>
 
