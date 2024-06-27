@@ -13,7 +13,7 @@
             <TabItem Header="Add Recipe   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="Add a new recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135" Foreground="Black"/>
+                        <TextBlock Text="Add New Recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="190" Foreground="Black"/>
                         <TextBlock Text="Recipe Name:" Width="545"/>
                         <TextBox x:Name="RecipeNameTextBox" Margin="0,0,0,10" Width="546"/>
                         <TextBlock Text="Ingredients:" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
@@ -59,17 +59,17 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <Button x:Name="AddIngredientBtn" Content="Add Ingredient" Width="100" Margin="400,10,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="AddIngredientBtn_Click"/>
-                        <TextBlock Text="Descriptions:" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
-                        <ItemsControl x:Name="InstructionsItemsControl">
+                        <TextBlock Text="Steps:" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <ItemsControl x:Name="StepsItemsControl">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Margin="0,5,0,5">
-                                        <TextBox Text="{Binding RecipeDescription}" Width="546" Margin="5"/>
+                                        <TextBox Text="{Binding RecipeSteps}" Width="546" Margin="5"/>
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Button x:Name="AddInstructionBtn" Content="Add Description" Width="100" Margin="400,10,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="AddInstructionBtn_Click"/>
+                        <Button x:Name="AddInstructionBtn" Content="Add Steps" Width="100" Margin="400,10,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="AddInstructionBtn_Click"/>
                         <Button x:Name="AddBtn" Content="Add Recipe" Width="100" Margin="400,20,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="AddBtn_Click"/>
                     </StackPanel>
                 </ScrollViewer>
@@ -79,7 +79,7 @@
             <TabItem Header="View Recipe   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="View a recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
+                        <TextBlock Text="View A Recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
                         <TextBlock Text="Recipe Name:"/>
                         <TextBox Name="SearchRecipeTextBox" Margin="0,0,0,10"/>
                         <Button x:Name="SrcBtn" Content="Search" Width="100" Margin="380,20,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="SrcBtn_Click"/>
@@ -93,7 +93,7 @@
             <TabItem Header="All Recipes   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="All recipes " FontSize="18" FontWeight="Bold" Margin="80,0,0,10" Width="100"/>
+                        <TextBlock Text="All Recipes " FontSize="18" FontWeight="Bold" Margin="80,0,0,10" Width="100"/>
                         <!-- Filter Elements -->
                         <StackPanel Orientation="Horizontal" Margin="0,10">
                             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
@@ -137,11 +137,11 @@
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
-                                        <TextBlock Text="Description:" FontWeight="Bold" Margin="0,5,0,0"/>
+                                        <TextBlock Text="Steps:" FontWeight="Bold" Margin="0,5,0,0"/>
                                         <ItemsControl ItemsSource="{Binding Ingredient}">
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding RecipeDescription}" Margin="10,0"/>
+                                                    <TextBlock Text="{Binding RecipeSteps}" Margin="10,0"/>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
@@ -158,7 +158,7 @@
             <TabItem Header="Scale Recipe   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="Scale a recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
+                        <TextBlock Text="Scale A Recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
                         <TextBlock Text="Recipe Name:"/>
                         <TextBox Name="ScaleRecipeTextBox" Margin="0,0,0,10"/>
                         <TextBlock Text="Scaling Factor:"/>
@@ -182,10 +182,10 @@
             <TabItem Header="Reset Recipe   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="Reset ingredients" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="170"/>
+                        <TextBlock Text="Reset Ingredients" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="170"/>
                         <TextBlock Text="Recipe Name:"/>
                         <TextBox Name="ResetRecipeTextBox" Margin="0,0,0,10"/>
-
+                   
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
@@ -194,7 +194,7 @@
             <TabItem Header="Delete Recipe   " Background="#E4A0F7" Margin="5,0">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Margin="10">
-                        <TextBlock Text="Delete a recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
+                        <TextBlock Text="Delete Recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
                         <TextBlock Text="Recipe Name:"/>
                         <TextBox Name="DeleteRecipeTextBox" Margin="0,0,0,10"/>
                         <Button x:Name="DeleteBtn" Content="Delete" Width="100" Background="#E4A0F7" Margin="400,10,0,0" HorizontalAlignment="Left" Click="DeleteBtn_Click"/>

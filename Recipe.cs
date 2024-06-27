@@ -26,10 +26,10 @@ namespace PROG_6221_Part_3_POE_ST10072500
         public string IngredientFoodGroup { get; set; }
     }
 
-    public class Descriptions
+    public class Steps
     {
         //Gets and Sets the RecipeDescription
-        public string RecipeDescriptions { get; set; }
+        public string RecipeSteps { get; set; }
 
     }
 
@@ -42,7 +42,7 @@ namespace PROG_6221_Part_3_POE_ST10072500
         public ObservableCollection<Ingredient> Ingredients { get; set; }
 
         //Gets and Sets the Description
-        public ObservableCollection<Descriptions> Descriptions { get; set; }
+        public ObservableCollection<Steps> Steps { get; set; }
 
         //Gets and Sets the Scale
         public bool IsScaled { get; set; }
@@ -50,7 +50,7 @@ namespace PROG_6221_Part_3_POE_ST10072500
         public Recipe()
         {
             Ingredients = new ObservableCollection<Ingredient>();
-            Descriptions = new ObservableCollection<Descriptions>();
+            Steps = new ObservableCollection<Steps>();
         }
 
 
@@ -92,4 +92,5 @@ namespace PROG_6221_Part_3_POE_ST10072500
     }
 
 }
+
 

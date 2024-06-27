@@ -20,29 +20,29 @@ namespace PROG_6221_Part_3_POE_ST10072500
         //Gets and Sets the Ingredient
         public ObservableCollection<Ingredient> Ingredients { get; set; }
 
-        //Gets and Sets the Description
-        public ObservableCollection<Descriptions> Descriptions { get; set; }
+        //Gets and Sets the Steps
+        public ObservableCollection<Steps> Steps { get; set; }
 
         //Gets and Sets the Recipe
         public ObservableCollection<Recipe> Recipes { get; set; }
 
-        private Recipe originalRecipe;
+        private Recipe orgRecipe;
 
-        private CaloriesAmount caloriesAmount;
+        private CaloriesAmount calAmount;
 
         public MainWindow()
         {
             InitializeComponent();
             Ingredients = new ObservableCollection<Ingredient>();
-            Descriptions = new ObservableCollection<Descriptions>();
+            Steps = new ObservableCollection<Steps>();
             IngredientsItemsControl.ItemsSource = Ingredients;
-            InstructionsItemsControl.ItemsSource = Descriptions;
+            StepsItemsControl.ItemsSource = Steps;
 
             Recipes = new ObservableCollection<Recipe>();
             AllRecipesListBox.ItemsSource = Recipes;
 
-            caloriesAmount = new CaloriesAmount(300, 0); // Calorie limit set to 300
-            caloriesAmount.CaloriesExceeded += CaloriesAmount_CaloriesExceeded;
+            calAmount = new CaloriesAmount(300, 0); // Calorie limit set to 300
+            calAmount.CaloriesExceeded += CaloriesAmount_CaloriesExceeded;
 
         }
 
@@ -66,7 +66,7 @@ namespace PROG_6221_Part_3_POE_ST10072500
         {
             RecipeNameTextBox.Clear();
             Ingredients.Clear();
-            Descriptions.Clear();
+            Steps.Clear();
         }
 
 
@@ -77,7 +77,7 @@ namespace PROG_6221_Part_3_POE_ST10072500
             {
                 RecipeName = RecipeNameTextBox.Text,
                 Ingredients = new ObservableCollection<Ingredient>(Ingredients),
-                Descriptions = new ObservableCollection<Descriptions>(Descriptions)
+                Steps = new ObservableCollection<Steps>(Steps)
             };
 
             // Calculate the total calories for new recipe
@@ -96,7 +96,7 @@ namespace PROG_6221_Part_3_POE_ST10072500
             }
 
             // Update the CaloriesAmount 
-            caloriesAmount.Credit(totalCalories);
+            calAmount.Credit(totalCalories);
 
             // Add new recipe to the collection of recipes 
             Recipes.Add(newRecipe);
@@ -129,10 +129,10 @@ namespace PROG_6221_Part_3_POE_ST10072500
 
                 RecipeDetailsTextBox.AppendText($"\nTotal Calories: {totalCalories}\n");
 
-                RecipeDetailsTextBox.AppendText("\nDescriptions:\n");
-                foreach (var description in foundRecipe.Descriptions)
+                RecipeDetailsTextBox.AppendText("\nSteps:\n");
+                foreach (var instruction in foundRecipe.Steps)
                 {
-                    RecipeDetailsTextBox.AppendText($"{description.RecipeDescriptions}\n");
+                    RecipeDetailsTextBox.AppendText($"{instruction.RecipeSteps}\n");
                 }
             }
             else
@@ -166,10 +166,10 @@ namespace PROG_6221_Part_3_POE_ST10072500
 
                 ScaledRecipeTextBox.AppendText($"\nTotal Calories: {totalCalories}\n");
 
-                ScaledRecipeTextBox.AppendText("\nDescriptions:\n");
-                foreach (var description in foundRecipe.Descriptions)
+                ScaledRecipeTextBox.AppendText("\nSteps:\n");
+                foreach (var instruction in foundRecipe.Steps)
                 {
-                    ScaledRecipeTextBox.AppendText($"{description.RecipeDescriptions}\n");
+                    ScaledRecipeTextBox.AppendText($"{instruction.RecipeSteps}\n");
                 }
             }
             else
@@ -202,10 +202,10 @@ namespace PROG_6221_Part_3_POE_ST10072500
                         ScaledRecipeTextBox.AppendText($"{ingredient.IngredientQuantity} {ingredient.IngredientUnit} {ingredient.IngredientName}\n");
                     }
 
-                    ScaledRecipeTextBox.AppendText("\nDescriptions:\n");
-                    foreach (var description in foundRecipe.Descriptions)
+                    ScaledRecipeTextBox.AppendText("\nSteps:\n");
+                    foreach (var instruction in foundRecipe.Steps)
                     {
-                        ScaledRecipeTextBox.AppendText($"{description.RecipeDescriptions}\n");
+                        ScaledRecipeTextBox.AppendText($"{instruction.RecipeSteps}\n");
                     }
 
                     // Update the tabs 
@@ -230,13 +230,67 @@ namespace PROG_6221_Part_3_POE_ST10072500
         }
 
 
-        private void FilterRecipes(string ingredientNameFilter, string foodGroupFilter, double maxCaloriesFilter)
+        //Reset Button
+        private void ResetBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string searchQuery = ScaleRecipeTextBox.Text.Trim();
+            var foundRecipe = Recipes.FirstOrDefault(r => r.RecipeName.Equals(searchQuery, StringComparison.OrdinalIgnoreCase));
+
+            if (foundRecipe != null && orgRecipe != null)
+            {
+                // Original inputs
+                foundRecipe.Ingredients = new ObservableCollection<Ingredient>(orgRecipe.Ingredients.Select(i => new Ingredient
+                {
+                    IngredientQuantity = i.IngredientQuantity,
+                    IngredientUnit = i.IngredientUnit,
+                    IngredientName = i.IngredientName
+                }));
+
+                foundRecipe.Steps = new ObservableCollection<Steps>(orgRecipe.Steps.Select(ins => new Steps
+                {
+                    RecipeSteps = ins.RecipeSteps
+                }));
+
+                // Update the text in the ScaledRecipeTextBox to display the original recipe
+                ScaledRecipeTextBox.Text = $"Recipe Name: {foundRecipe.RecipeName}\n\n";
+                ScaledRecipeTextBox.AppendText("Ingredients:\n");
+
+                foreach (var ingredient in foundRecipe.Ingredients)
+                {
+                    ScaledRecipeTextBox.AppendText($"{ingredient.IngredientQuantity} {ingredient.IngredientUnit} {ingredient.IngredientName}\n");
+                }
+
+                ScaledRecipeTextBox.AppendText("\nSteps:\n");
+                foreach (var instruction in foundRecipe.Steps)
+                {
+                    ScaledRecipeTextBox.AppendText($"{instruction.RecipeSteps}\n");
+                }
+
+                // Update tabs by refreshing 
+                AllRecipesListBox.Items.Refresh();
+
+                // Reset the scaled number
+                foundRecipe.IsScaled = false;
+
+                
+                ScaleBtn.IsEnabled = true;
+                ScalingFactorComboBox.IsEnabled = true;
+            }
+            else
+            {
+                ScaledRecipeTextBox.Text = "Recipe not found!";
+            }
+        }
+
+
+
+        private void FilterRecipes(string FilteringredientName, string FilterfoodGroup, double FiltermaxCalories)
         {
             var filteredRecipes = new ObservableCollection<Recipe>();
 
             foreach (var recipe in Recipes)
             {
-                if (recipe.MatchesFilter(ingredientNameFilter, foodGroupFilter, maxCaloriesFilter))
+                if (recipe.MatchesFilter(FilteringredientName, FilterfoodGroup, FiltermaxCalories))
                 {
                     filteredRecipes.Add(recipe);
                 }
@@ -249,16 +303,16 @@ namespace PROG_6221_Part_3_POE_ST10072500
         // Filter Button
         private void FilterBtn_Click(object sender, RoutedEventArgs e)
         {
-            string ingredientNameFilter = FilterIngredientTextBox.Text.Trim();
-            string foodGroupFilter = (FilterFoodGroupComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            double maxCaloriesFilter = 0;
+            string FilteringredientName = FilterIngredientTextBox.Text.Trim();
+            string FilterfoodGroup = (FilterFoodGroupComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+            double FiltermaxCalories = 0;
 
             if (double.TryParse(FilterMaxCaloriesTextBox.Text, out double maxCalories))
             {
-                maxCaloriesFilter = maxCalories;
+                FiltermaxCalories = maxCalories;
             }
 
-            FilterRecipes(ingredientNameFilter, foodGroupFilter, maxCaloriesFilter);
+            FilterRecipes(FilteringredientName, FilterfoodGroup, FiltermaxCalories);
         }
 
 
@@ -306,7 +360,7 @@ namespace PROG_6221_Part_3_POE_ST10072500
             }
             else
             {
-                MessageBox.Show("Please enter the recipe's name to delete.", "Fill Recipe Name", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Enter recipe name to be deleted.", "Fill Recipe Name", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -319,7 +373,7 @@ namespace PROG_6221_Part_3_POE_ST10072500
 
         private void AddInstructionBtn_Click(object sender, RoutedEventArgs e)
         {
-            Descriptions.Add(new Descriptions());
+            Steps.Add(new Steps());
         }
 
 
