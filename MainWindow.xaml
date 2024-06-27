@@ -5,8 +5,202 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PROG_6221_Part_3_POE_ST10072500"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Background="AliceBlue"
+        Title="MainWindow" Height="550" Width="960">    
     <Grid>
+        <TabControl TabStripPlacement="Top" Background="#FFD1DF" Padding="10" Margin="15">
+            <!-- Tab Add Recipe-->
+            <TabItem Header="Add Recipe   " Background="#E4A0F7" Margin="5,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Add a new recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135" Foreground="Black"/>
+                        <TextBlock Text="Recipe Name:" Width="545"/>
+                        <TextBox x:Name="RecipeNameTextBox" Margin="0,0,0,10" Width="546"/>
+                        <TextBlock Text="Ingredients:" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <ItemsControl x:Name="IngredientsItemsControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,5,0,5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" FontWeight="Bold" Margin="5"/>
+                                        <TextBlock Text="Quantity" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Margin="5"/>
+                                        <TextBlock Text="Unit" Grid.Row="0" Grid.Column="2" FontWeight="Bold" Margin="5"/>
+                                        <TextBlock Text="Calorie Count" Grid.Row="0" Grid.Column="3" FontWeight="Bold" Margin="5"/>
+                                        <TextBlock Text="Food Group" Grid.Row="0" Grid.Column="4" FontWeight="Bold" Margin="5"/>
+                                        <TextBox Text="{Binding IngredientName}" Margin="5" Grid.Row="1" Grid.Column="0"/>
+                                        <TextBox Text="{Binding IngredientQuantity}" Margin="5" Grid.Row="1" Grid.Column="1"/>
+                                        <ComboBox Text="{Binding IngredientUnit}" Margin="5" Grid.Row="1" Grid.Column="2">
+                                            <ComboBoxItem>tsp (teaspoon)</ComboBoxItem>
+                                            <ComboBoxItem>tbsp (tablespoon)</ComboBoxItem>
+                                            <ComboBoxItem>c (cup)</ComboBoxItem>
+                                            <ComboBoxItem>ml (milliliter)</ComboBoxItem>
+                                            <ComboBoxItem>kg (kilogram)</ComboBoxItem>
+                                        </ComboBox>
+                                        <TextBox Text="{Binding IngredientCalorieCount}" Margin="5" Grid.Row="1" Grid.Column="3"/>
+                                        <ComboBox Text="{Binding IngredientFoodGroup}" Margin="5" Grid.Row="1" Grid.Column="4">
+                                            <ComboBoxItem>Proteins</ComboBoxItem>
+                                            <ComboBoxItem>Carbohydrates</ComboBoxItem>
+                                            <ComboBoxItem>Fats and sugars</ComboBoxItem>
+                                            <ComboBoxItem>Dairy</ComboBoxItem>
+                                            <ComboBoxItem>Fruit and vegetables</ComboBoxItem>
+                                        </ComboBox>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button x:Name="AddIngredientBtn" Content="Add Ingredient" Width="100" Margin="400,10,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="AddIngredientBtn_Click"/>
+                        <TextBlock Text="Descriptions:" FontSize="14" FontWeight="Bold" Margin="0,10,0,5"/>
+                        <ItemsControl x:Name="InstructionsItemsControl">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="0,5,0,5">
+                                        <TextBox Text="{Binding RecipeDescription}" Width="546" Margin="5"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Button x:Name="AddInstructionBtn" Content="Add Description" Width="100" Margin="400,10,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="AddInstructionBtn_Click"/>
+                        <Button x:Name="AddBtn" Content="Add Recipe" Width="100" Margin="400,20,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="AddBtn_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
 
+            <!-- Tab View Recipe -->
+            <TabItem Header="View Recipe   " Background="#E4A0F7" Margin="5,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="View a recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
+                        <TextBlock Text="Recipe Name:"/>
+                        <TextBox Name="SearchRecipeTextBox" Margin="0,0,0,10"/>
+                        <Button x:Name="SrcBtn" Content="Search" Width="100" Margin="380,20,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="SrcBtn_Click"/>
+                        <TextBlock Text="Recipe Details:" Margin="0,20,0,0"/>
+                        <TextBox Name="RecipeDetailsTextBox" Margin="0,0,0,10" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Height="200"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab for All Recipes -->
+            <TabItem Header="All Recipes   " Background="#E4A0F7" Margin="5,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="All recipes in alphabetical order" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="260"/>
+                        <!-- Filter Elements -->
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                                <TextBlock Text="Enter Ingredient"/>
+                                <TextBox x:Name="FilterIngredientTextBox" Width="200"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                                <TextBlock Text="Select food group:"/>
+                                <ComboBox x:Name="FilterFoodGroupComboBox" Width="200">
+                                    <ComboBoxItem>Proteins</ComboBoxItem>
+                                    <ComboBoxItem>Carbohydrates</ComboBoxItem>
+                                    <ComboBoxItem>Fats and sugars</ComboBoxItem>
+                                    <ComboBoxItem>Dairy</ComboBoxItem>
+                                    <ComboBoxItem>Fruit and vegetables</ComboBoxItem>
+                                </ComboBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Margin="0,0,10,0">
+                                <TextBlock Text="Enter maximum calories"/>
+                                <TextBox x:Name="FilterMaxCaloriesTextBox" Width="200"/>
+                            </StackPanel>
+                            <Button x:Name="FilterBtn" Content="Apply Filter" Width="100" Background="#E4A0F7" Margin="10,0,0,0" Click="FilterBtn_Click"/>
+                            <Button x:Name="ResetFilterBtn" Content="Reset Filter" Width="100" Background="#E4A0F7" Margin="10,0,0,0" Click="ResetFilterBtn_Click"/>
+                        </StackPanel>
+                        <!-- ListBox to view the filtered recipes -->
+                        <ListBox Name="AllRecipesListBox">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding RecipeName}" FontWeight="Bold" FontSize="16" Margin="0,0,0,5"/>
+                                        <TextBlock Text="Ingredients:" FontWeight="Bold" Margin="0,0,0,5"/>
+                                        <ItemsControl ItemsSource="{Binding Ingredients}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Text="{Binding IngredientQuantity}" FontWeight="Bold"/>
+                                                        <TextBlock Text="{Binding IngredientUnit}" FontWeight="Bold" Margin="5,0"/>
+                                                        <TextBlock Text="{Binding IngredientName}" Margin="5,0"/>
+                                                        <TextBlock Text="{Binding IngredientCalorieCount}" Margin="5,0"/>
+                                                        <TextBlock Text="{Binding IngredientFoodGroup}" Margin="5,0"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Text="Description:" FontWeight="Bold" Margin="0,5,0,0"/>
+                                        <ItemsControl ItemsSource="{Binding Ingredient}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding RecipeDescription}" Margin="10,0"/>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <Separator Margin="0,10,0,10"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab Scale Recipe -->
+            <TabItem Header="Scale Recipe   " Background="#E4A0F7" Margin="5,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Scale a recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
+                        <TextBlock Text="Recipe Name:"/>
+                        <TextBox Name="ScaleRecipeTextBox" Margin="0,0,0,10"/>
+                        <TextBlock Text="Scaling Factor:"/>
+                        <ComboBox Name="ScalingFactorComboBox" Margin="0,0,0,10">
+                            <ComboBoxItem Content="0.5" />
+                            <ComboBoxItem Content="2" />
+                            <ComboBoxItem Content="3" />
+                        </ComboBox>
+                        <StackPanel Orientation="Horizontal" Margin="0,20,0,0">
+                            <Button x:Name="ViewBtn" Content="View" Width="100" Margin="300,0,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="ViewBtn_Click"/>
+                            <Button x:Name="ScaleBtn" Content="Scale" Width="100" Margin="50,0,0,0" Background="#E4A0F7" HorizontalAlignment="Left" Click="ScaleBtn_Click"/>
+
+                        </StackPanel>
+                        <TextBlock Text="Scaled Recipe:" Margin="0,20,0,0"/>
+                        <TextBox Name="ScaledRecipeTextBox" Margin="0,0,0,10" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" Height="200"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab Reset Ingredients -->
+            <TabItem Header="Reset Recipe   " Background="#E4A0F7" Margin="5,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Reset ingredients to original amount" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="330"/>
+                        <TextBlock Text="Recipe Name:"/>
+                        <TextBox Name="ResetRecipeTextBox" Margin="0,0,0,10"/>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Tab Delete Recipe -->
+            <TabItem Header="Delete Recipe   " Background="#E4A0F7" Margin="5,0">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="Delete a recipe" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Width="135"/>
+                        <TextBlock Text="Recipe Name:"/>
+                        <TextBox Name="DeleteRecipeTextBox" Margin="0,0,0,10"/>
+                        <Button x:Name="DeleteBtn" Content="Delete" Width="100" Background="#E4A0F7" Margin="400,10,0,0" HorizontalAlignment="Left" Click="DeleteBtn_Click"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
